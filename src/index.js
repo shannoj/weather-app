@@ -7,10 +7,6 @@ function createElement(element, idValue){
     return newElement;
 }
 
-function appendElement(parentElement, childElement){
-    parentElement.appendChild(childElement);
-}
-
 async function getCurrentWeather(city){
     const url = 'https://weatherapi-com.p.rapidapi.com/current.json?q='+city;
 const options = {
@@ -43,8 +39,7 @@ async function getWeatherForecast(city){
     
     try {
         const response = await fetch(url, options);
-        const result = await response.text();
-        console.log(result);
+        const result = await response.json();
         return result;
     } catch (error) {
         console.error(error);
@@ -59,12 +54,8 @@ async function loadElements() {
         const weatherData = await getCurrentWeather('Paris');
         const weatherInfoElement = document.getElementById('weatherInfo');
 
-        // Check the structure of the received data in the console
-        console.log(weatherData);
-
         // Display specific information from the weather data
         if (weatherData && weatherData.current) {
-            // For example, displaying temperature and description
             const temperature = weatherData.current.temp_c;
             const description = weatherData.current.condition.text;
             const location = weatherData.location.name;
