@@ -23,8 +23,8 @@ const options = {
 
 try {
 	const response = await fetch(url, options);
-	const result = await response.text();
-	console.log(result);
+	const result = await response.json();
+    return result;
 } catch (error) {
 	console.error(error);
 }
@@ -45,11 +45,41 @@ async function getWeatherForecast(city){
         const response = await fetch(url, options);
         const result = await response.text();
         console.log(result);
+        return result;
     } catch (error) {
         console.error(error);
     }
 }
 
-getCurrentWeather('Paris');
+async function loadElements() {
+    const weatherInfo = createElement('div', 'weatherInfo');
+    document.body.appendChild(weatherInfo);
+
+    try {
+        const weatherData = await getCurrentWeather('Paris');
+        const weatherInfoElement = document.getElementById('weatherInfo');
+
+        // Check the structure of the received data in the console
+        console.log(weatherData);
+
+        // Display specific information from the weather data
+        if (weatherData && weatherData.current) {
+            // For example, displaying temperature and description
+            const temperature = weatherData.current.temp_c;
+            const description = weatherData.current.condition.text;
+            const location = weatherData.location.name;
+            weatherInfoElement.innerText = `Location: ${location}
+            Temperature: ${temperature}°C
+            Description: ${description}`;
+        } else {
+            weatherInfoElement.innerText = "Weather data not available.";
+        }
+    } catch (error) {
+        console.error(error);
+    }
+};
+
+loadElements();
+
 
 //getWeatherForecast('Paris');
