@@ -46,29 +46,51 @@ async function getWeatherForecast(city){
     }
 }
 
+// ... (your existing code)
+
+// Function to update weather based on user input
+async function updateWeather() {
+    const userInput = document.getElementById('userInput').value; // Get the value from the input field
+
+    if (userInput) {
+        try {
+            const weatherData = await getCurrentWeather(userInput);
+            const weatherInfoElement = document.getElementById('weatherInfo');
+
+            if (weatherData) {
+                if (weatherData.current) {
+                    const temperature = weatherData.current.temp_c;
+                    const description = weatherData.current.condition.text;
+                    weatherInfoElement.innerText = `Temperature: ${temperature}°C, Description: ${description}`;
+                } else {
+                    weatherInfoElement.innerText = "Weather data not available.";
+                }
+            } else {
+                weatherInfoElement.innerText = "Failed to fetch weather data for " + userInput;
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    } else {
+        alert("Please enter a location.");
+    }
+}
+
+// Function to load elements and set up event listener
 async function loadElements() {
+    const userInputField = createElement('input', 'userInput');
+    userInputField.setAttribute('placeholder', 'Enter location');
+    document.body.appendChild(userInputField);
+
+    const updateButton = createElement('button', 'updateButton');
+    updateButton.innerText = 'Get Weather';
+    document.body.appendChild(updateButton);
+
     const weatherInfo = createElement('div', 'weatherInfo');
     document.body.appendChild(weatherInfo);
 
-    try {
-        const weatherData = await getCurrentWeather('Paris');
-        const weatherInfoElement = document.getElementById('weatherInfo');
-
-        // Display specific information from the weather data
-        if (weatherData && weatherData.current) {
-            const temperature = weatherData.current.temp_c;
-            const description = weatherData.current.condition.text;
-            const location = weatherData.location.name;
-            weatherInfoElement.innerText = `Location: ${location}
-            Temperature: ${temperature}°C
-            Description: ${description}`;
-        } else {
-            weatherInfoElement.innerText = "Weather data not available.";
-        }
-    } catch (error) {
-        console.error(error);
-    }
-};
+    document.getElementById('updateButton').addEventListener('click', updateWeather);
+}
 
 loadElements();
 
