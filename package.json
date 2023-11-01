@@ -6,7 +6,9 @@
   "homepage": "http://shannoj.github.io/weather-app",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "webpack --progress --mode=production"
+    "build": "webpack",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d dist"
   },
   "repository": {
     "url": "git+https://github.com/shannoj/weather-app.git"
