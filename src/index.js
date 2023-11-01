@@ -1,8 +1,6 @@
 import _ from 'lodash';
 import './style.css';
 
-let isCelsius = true;
-
 function createElement(element, idValue){
     const newElement = document.createElement(element);
     newElement.id = idValue;
@@ -65,13 +63,7 @@ async function updateWeather() {
             console.log(weatherData);
             if (weatherData) {
                 if (weatherData.current) {
-                    if (isCelsius) {
-                        temperature.innerHTML = 'Temperature: ' + Math.round(weatherData.current.temp_c) + '°C';
-                    } else {
-                        // Convert Celsius to Fahrenheit: °F = °C * 9/5 + 32
-                        const tempF = Math.round((weatherData.current.temp_c * 9) / 5 + 32);
-                        temperature.innerHTML = 'Temperature: ' + tempF + '°F';
-                    }
+                    temperature.innerHTML = 'Temperature: ' + weatherData.current.temp_c +' C';
                     description.innerHTML = weatherData.current.condition.text;
                     image.setAttribute('src', weatherData.current.condition.icon);
                     weatherBox.style.display = 'flex';
@@ -93,10 +85,18 @@ async function updateWeather() {
 async function loadElements() {
     const tempSwitchBox = createElement('div', 'temp-button-container');
     const farenheight = createElement('button', 'farenheight-button');
+    farenheight.addEventListener('click', function(){
+        farenheight.style.color = 'white';
+        celcius.style.color = 'black'
+    })
     const divider = createElement('div', 'divider');
     farenheight.innerHTML = 'F'
     divider.innerHTML = '|'
     const celcius = createElement('button', 'celcius-button');
+    celcius.addEventListener('click', function(){
+        celcius.style.color = 'white';
+        farenheight.style.color = 'black';
+    })
     celcius.innerHTML = 'C';
     tempSwitchBox.appendChild(farenheight);
     tempSwitchBox.appendChild(divider);
@@ -125,24 +125,10 @@ async function loadElements() {
     weatherInfo.appendChild(weatherBox);
     document.body.appendChild(weatherInfo);
 
-    // Event listeners for temperature unit switch
-farenheight.addEventListener('click', function() {
-    farenheight.style.color = 'white';
-    celcius.style.color = 'black';
-    isCelsius = false;
-    updateWeather(); // Update the displayed temperature
-});
-
-celcius.addEventListener('click', function() {
-    celcius.style.color = 'white';
-    farenheight.style.color = 'black';
-    isCelsius = true;
-    updateWeather(); // Update the displayed temperature
-});
-
     document.getElementById('updateButton').addEventListener('click', updateWeather);
 }
 
 loadElements();
+
 
 //getWeatherForecast('Paris');
