@@ -1,9 +1,14 @@
+body{
+    margin: 0px;
+}
 #header{
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
     width: 100%;
     height: 10%;
+    background-color: #045DE9;
+    height: 10vh;
 }
 
 #weatherInfo{
@@ -13,4 +18,87 @@
     flex-direction: column;
     height: 50vh;
     width: 100%;
+}
+
+#userInput{
+    border-radius: 2%;
+    border-style: solid;
+    width: 50%;
+    padding: 5px;
+    border: none;
+}
+
+#updateButton{
+    background-color: #04AA6D;
+    border: none;
+    color: white;
+    text-decoration: none;
+    cursor: pointer;
+    margin-left: 10px;
+    padding: 7px 20px;
+
+}
+
+#updateButton:hover{
+    background-color: darkgreen;
+}
+
+#weather-box{
+    height: 50%;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    background-color: lightgrey;
+    width: 15%;
+    padding: 10px;
+    border-radius: 2%;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2); /* Add a shadow for the floating effect */
+}
+
+#temperature{
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+#description{
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+#temp-button-container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 10%;
+    padding: 5px;
+}
+
+#search-box{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 30%;
+}
+
+#farenheight-button, #celcius-button{
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+#farenheight-button{
+    color: black;
+}
+
+#celcius-button{
+    color: black;
+}
+
+#farenheight-button:hover{
+    color: white;
+}
+
+#celcius-button:hover{
+    color: white;
 }

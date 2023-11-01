@@ -59,12 +59,14 @@ async function updateWeather() {
             const temperature = document.getElementById('temperature');
             const description = document.getElementById('description');
             const image = document.getElementById('image');
+            const weatherBox = document.getElementById('weather-box');
             console.log(weatherData);
             if (weatherData) {
                 if (weatherData.current) {
-                    temperature.innerHTML = 'Temperature: ' + weatherData.current.temp_c;
+                    temperature.innerHTML = 'Temperature: ' + weatherData.current.temp_c +' C';
                     description.innerHTML = weatherData.current.condition.text;
                     image.setAttribute('src', weatherData.current.condition.icon);
+                    weatherBox.style.display = 'flex';
                 } else {
                     weatherInfoElement.innerText = "Weather data not available.";
                 }
@@ -81,14 +83,35 @@ async function updateWeather() {
 
 // Function to load elements and set up event listener
 async function loadElements() {
-    const topHeader = createElement('div', 'header');   
+    const tempSwitchBox = createElement('div', 'temp-button-container');
+    const farenheight = createElement('button', 'farenheight-button');
+    farenheight.addEventListener('click', function(){
+        farenheight.style.color = 'white';
+        celcius.style.color = 'black'
+    })
+    const divider = createElement('div', 'divider');
+    farenheight.innerHTML = 'F'
+    divider.innerHTML = '|'
+    const celcius = createElement('button', 'celcius-button');
+    celcius.addEventListener('click', function(){
+        celcius.style.color = 'white';
+        farenheight.style.color = 'black';
+    })
+    celcius.innerHTML = 'C';
+    tempSwitchBox.appendChild(farenheight);
+    tempSwitchBox.appendChild(divider);
+    tempSwitchBox.appendChild(celcius);
+    const weatherBox = createElement('div', 'weather-box');
+    const topHeader = createElement('div', 'header');
+    const searchBox = createElement('div', 'search-box');
     const userInputField = createElement('input', 'userInput');
     userInputField.setAttribute('placeholder', 'Enter location');
-    topHeader.appendChild(userInputField)
-
     const updateButton = createElement('button', 'updateButton');
     updateButton.innerText = 'Get Weather';
-    topHeader.appendChild(updateButton);
+    searchBox.appendChild(userInputField);
+    searchBox.appendChild(updateButton);
+    topHeader.appendChild(searchBox);
+    topHeader.appendChild(tempSwitchBox);
 
     document.body.appendChild(topHeader);
 
@@ -96,9 +119,10 @@ async function loadElements() {
     const temperature = createElement('div', 'temperature');
     const description = createElement('div', 'description');
     const image = createElement('img', 'image');
-    weatherInfo.appendChild(image);
-    weatherInfo.appendChild(temperature);
-    weatherInfo.appendChild(description);
+    weatherBox.appendChild(image);
+    weatherBox.appendChild(temperature);
+    weatherBox.appendChild(description);
+    weatherInfo.appendChild(weatherBox);
     document.body.appendChild(weatherInfo);
 
     document.getElementById('updateButton').addEventListener('click', updateWeather);
