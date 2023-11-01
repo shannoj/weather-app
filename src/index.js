@@ -56,12 +56,15 @@ async function updateWeather() {
         try {
             const weatherData = await getCurrentWeather(userInput);
             const weatherInfoElement = document.getElementById('weatherInfo');
-
+            const temperature = document.getElementById('temperature');
+            const description = document.getElementById('description');
+            const image = document.getElementById('image');
+            console.log(weatherData);
             if (weatherData) {
                 if (weatherData.current) {
-                    const temperature = weatherData.current.temp_c;
-                    const description = weatherData.current.condition.text;
-                    weatherInfoElement.innerText = `Temperature: ${temperature}°C, Description: ${description}`;
+                    temperature.innerHTML = 'Temperature: ' + weatherData.current.temp_c;
+                    description.innerHTML = weatherData.current.condition.text;
+                    image.setAttribute('src', weatherData.current.condition.icon);
                 } else {
                     weatherInfoElement.innerText = "Weather data not available.";
                 }
@@ -78,15 +81,24 @@ async function updateWeather() {
 
 // Function to load elements and set up event listener
 async function loadElements() {
+    const topHeader = createElement('div', 'header');   
     const userInputField = createElement('input', 'userInput');
     userInputField.setAttribute('placeholder', 'Enter location');
-    document.body.appendChild(userInputField);
+    topHeader.appendChild(userInputField)
 
     const updateButton = createElement('button', 'updateButton');
     updateButton.innerText = 'Get Weather';
-    document.body.appendChild(updateButton);
+    topHeader.appendChild(updateButton);
+
+    document.body.appendChild(topHeader);
 
     const weatherInfo = createElement('div', 'weatherInfo');
+    const temperature = createElement('div', 'temperature');
+    const description = createElement('div', 'description');
+    const image = createElement('img', 'image');
+    weatherInfo.appendChild(image);
+    weatherInfo.appendChild(temperature);
+    weatherInfo.appendChild(description);
     document.body.appendChild(weatherInfo);
 
     document.getElementById('updateButton').addEventListener('click', updateWeather);
